@@ -64,6 +64,8 @@ public class Program
         building.AddEdge("GGG", "GG", 8);
 
         building.PrintGraph();
+
+        Console.WriteLine(building.Dijkstra("341"));
     }
 
 }

@@ -52,10 +52,14 @@ namespace DSA_Final
             }
         }
 
-        public Dictionary<string, int> Dijkstra(string start)
+        public int Dijkstra(string start)
         {
-
-
+            string exit1 = "Exit1";
+            string exit2 = "Exit2";
+            string exit3 = "Exit3";
+            string exit4 = "Exit4";
+            string exit5 = "Exit5";
+            int distance = 0;
             // Step 1: Create a dictionary to store shortest distances
             var distances = new Dictionary<string, int>();
 
@@ -110,7 +114,34 @@ namespace DSA_Final
             }
 
             // Return the dictionary of shortest distances
-            return distances;
+            //return distances;
+
+
+            for (int i = 0; i < distances.Count; i++)
+            {
+                if (distances.ContainsKey(exit1))
+                {
+                    distance = distances[exit1];
+                }
+                if (distances.ContainsKey(exit2) && distance > distances[exit2])
+                {
+                    distance = distances[exit2];
+                }
+                if (distances.ContainsKey(exit3) && distance > distances[exit3])
+                {
+                    distance = distances[exit3];
+                }
+                if (distances.ContainsKey(exit4) && distance > distances[exit4])
+                {
+                    distance = distances[exit4];
+                }
+                if (distances.ContainsKey(exit5) && distance > distances[exit5])
+                {
+                    distance = distances[exit5];
+                }
+
+            }
+            return distance;
         }
     }
 }
