@@ -29,14 +29,14 @@ namespace DSA_Final
 
         public void AddEdge(string firstNode, string secondNode, int weight)
         {
-            if(weight < 0)
+            if (weight < 0)
             {
                 weight = 0;
             }
-
             AddNode(firstNode);
             AddNode(secondNode);
             Graph[firstNode][secondNode] = weight;
+            Graph[secondNode][firstNode] = weight;
         }
 
         public void PrintGraph()
@@ -100,42 +100,54 @@ namespace DSA_Final
             return (distances, previous);
         }
 
-        // Reconstruct path from start to target
-        public List<string> GetPath(Dictionary<string, string> previous, string target)
+        public List<string> GetPath(Dictionary<string,string> previous, string target)
         {
             var path = new List<string>();
+            if (!previous.ContainsKey(target)) return path;
             string current = target;
-
             while (current != null)
             {
                 path.Insert(0, current);
-                current = previous[current];
+                if (!previous.TryGetValue(current, out current)) break;
             }
-
             return path;
         }
 
-        public void OptimizeEvacuation(Dictionary<string, int> roomStudents, List<string> exits)
+        public void OptimizeEvacuationPlan(Dictionary<string, int> roomStudents, List<string> exits)
         {
-            // Capacities
+            
             var capacities = new Dictionary<string, int>
             {
-                { "CenterStair", 200 },
-                { "SideStair", 100 },
+                { "E", 200 },
+                { "DD", 200 },
+                { "CCC", 200 },
+                { "GGG", 100 },
+                { "GG", 100 },
+                {"I", 100 },
+                {"AAA", 100 },
+                { "AA", 100 },
+                {"A", 100 },
                 { "Exit1", 300 },
-                { "Exit2", 300 }
+                { "Exit2", 300 },
+                { "Exit3", 300 },
+                { "Exit4", 300 },
+                { "Exit5", 300 }
             };
 
-            // Usage counts
-            var usage = capacities.Keys.ToDictionary(k => k, k => 0);
 
-            Console.WriteLine("\n--- Building-Wide Optimization ---");
+            var usage = new Dictionary<string, int>();
+            foreach (var key in capacities.Keys)
+            {
+                usage[key] = 0;
+            }
+
+            Console.WriteLine("--- Evacuation Plan ---");
 
             foreach (var room in roomStudents.Keys)
             {
                 int totalStudents = roomStudents[room];
 
-                // Compute shortest paths to each exit
+
                 var (distances, previous) = Dijkstra(room);
 
                 var pathOptions = new List<(string exit, List<string> path, int baseTime)>();
@@ -149,15 +161,15 @@ namespace DSA_Final
                     }
                 }
 
-                // Simple heuristic: split evenly across available exits
+
                 int splitCount = pathOptions.Count;
                 int studentsPerPath = totalStudents / splitCount;
 
-                Console.WriteLine($"\nRoom {room} ({totalStudents} students):");
+                Console.WriteLine($"Room: {room} ({totalStudents} students):");
 
                 foreach (var option in pathOptions)
                 {
-                    // Add usage to choke points
+                   
                     foreach (var node in option.path)
                     {
                         if (capacities.ContainsKey(node))
@@ -166,25 +178,19 @@ namespace DSA_Final
                         }
                     }
 
-                    Console.WriteLine($"  -> {studentsPerPath} students via {string.Join(" -> ", option.path)} (BaseTime={option.baseTime})");
+                    Console.WriteLine($" -> {studentsPerPath} students via {string.Join(" -> ", option.path)} (BaseTime={option.baseTime})");
                 }
             }
 
-            // Compute penalties
-            var penalties = new Dictionary<string, double>();
-            foreach (var choke in usage.Keys)
-            {
-                if (usage[choke] <= capacities[choke])
-                    penalties[choke] = 0;
-                else
-                    penalties[choke] = (double)(usage[choke] - capacities[choke]) / capacities[choke];
-            }
-
-            // Report choke point usage
+            
+            
             Console.WriteLine("\nChoke Point Usage:");
-            foreach (var choke in usage.Keys)
+            foreach (var choke in usage.Keys.OrderBy(k => k))
             {
-                Console.WriteLine($"{choke}: {usage[choke]} students, Capacity={capacities[choke]}, Penalty={penalties[choke]:F2}");
+                 int used = usage[choke];
+                 int cap = capacities[choke];
+                 double penalty = used > cap ? (double)(used - cap) / cap : 0.0;
+                 Console.WriteLine($"{choke}: {used} students, Capacity={cap}, Penalty={penalty:F2}");
             }
         }       
     }

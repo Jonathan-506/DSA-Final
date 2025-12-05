@@ -19,15 +19,15 @@ public class Program
         building.AddEdge("F", "E", 6);
         building.AddEdge("Exit4", "E", 2);
         building.AddEdge("E", "D", 3);
-        building.AddEdge("D", "Exit3", 2);
+        building.AddEdge("Exit3", "D", 2);
         building.AddEdge("D", "C", 3);
-        building.AddEdge("C", "Exit 2", 1);
+        building.AddEdge("Exit2", "C", 1);
         building.AddEdge("C", "B", 4);
         building.AddEdge("B", "A", 4);
         building.AddEdge("124", "B", 0);
         building.AddEdge("122", "B", 0);
         building.AddEdge("123", "B", 0);
-        building.AddEdge("A", "Exit1", 0);
+        building.AddEdge("Exit1", "A", 0);
 
         //second Floor
         building.AddEdge("AA", "A", 8);
@@ -69,24 +69,24 @@ public class Program
         Dictionary<string, int> studentsPerRoom = new Dictionary<string, int>
         { 
             { "151", 72 },                
-            { "142", 50 },                
-            { "143", 72 },                
-            { "124", 50 },            
-            { "122", 90 },     
-            { "123", 72 },
-            { "223", 50 }, 
+            { "142", 79 },                
+            { "143", 35 },                
+            { "124", 66 },            
+            { "122", 33 },     
+            { "123", 98 },
+            { "223", 120 }, 
             { "225", 90 },
-            { "254", 72 },
+            { "254", 300 },
             { "243", 50 },
-            { "251", 90 },
-            { "323", 90 },              
+            { "251", 300 },
+            { "323", 87 },              
             { "324", 72 },
-            { "354", 50 },
-            { "353", 90 },
-            { "343", 72 },
-            { "342", 50 },
-            { "351", 90 },
-            { "341", 18}
+            { "354", 10 },
+            { "353", 1500 },
+            { "343", 720 },
+            { "342", 500 },
+            { "351", 460 },
+            { "341", 1800}
         };
 
         List<string> exits = new List<string>
@@ -100,7 +100,7 @@ public class Program
         };
 
 
-        building.OptimizeEvacuation(studentsPerRoom, exits);
+        building.OptimizeEvacuationPlan(studentsPerRoom, exits);
     }
 
 }
