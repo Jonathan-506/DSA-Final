@@ -52,14 +52,15 @@ namespace DSA_Final
             }
         }
 
-        public int Dijkstra(string start)
+        public decimal Dijkstra(string start, Penalty penalty)
         {
+            decimal penaltySum = 0;
             string exit1 = "Exit1";
             string exit2 = "Exit2";
             string exit3 = "Exit3";
             string exit4 = "Exit4";
             string exit5 = "Exit5";
-            int distance = 0;
+            decimal distance = 0;
             // Step 1: Create a dictionary to store shortest distances
             var distances = new Dictionary<string, int>();
 
@@ -86,6 +87,7 @@ namespace DSA_Final
                 {
                     if (!visited.Contains(node) && distances[node] < smallestDistance)
                     {
+                        penalty.ComputePenalty(node);
                         smallestDistance = distances[node];
                         currentNode = node;
                     }
@@ -115,10 +117,7 @@ namespace DSA_Final
 
             // Return the dictionary of shortest distances
             //return distances;
-
-
-            for (int i = 0; i < distances.Count; i++)
-            {
+            
                 if (distances.ContainsKey(exit1))
                 {
                     distance = distances[exit1];
@@ -140,8 +139,9 @@ namespace DSA_Final
                     distance = distances[exit5];
                 }
 
-            }
-            return distance;
+            penaltySum = penalty.SumOfPenalties();
+            
+            return distance * (1 + penaltySum);
         }
     }
 }

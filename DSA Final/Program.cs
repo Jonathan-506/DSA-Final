@@ -6,6 +6,7 @@ public class Program
 {
     public static void Main()
     {
+        Penalty penalty = new Penalty();
         Map building = new Map();
         //FirstFloor
         building.AddEdge("Exit5", "I", 0);
@@ -63,9 +64,9 @@ public class Program
         building.AddEdge("FFF", "GGG", 3);
         building.AddEdge("GGG", "GG", 8);
 
-        building.PrintGraph();
+        //building.PrintGraph();
 
-        Console.WriteLine(building.Dijkstra("341"));
+        Console.WriteLine(building.Dijkstra("123", penalty));
     }
 
 }
