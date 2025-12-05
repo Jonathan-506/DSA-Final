@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace DSA_Final
 {
-   //used Ai to help understand and write this code
+   //used MicroSoft Copilot AI to help understand and write this code 
+   // I then used the GitHub Copilot to debug and refactor the code to be more understandable for myself
    //This was my first time using ai to help with assignments 
    //So this was a really good learing experience for me
     internal class Map
@@ -123,10 +124,10 @@ namespace DSA_Final
                 { "CCC", 200 },
                 { "GGG", 100 },
                 { "GG", 100 },
-                {"I", 100 },
-                {"AAA", 100 },
+                { "I", 100 },
+                { "AAA", 100 },
                 { "AA", 100 },
-                {"A", 100 },
+                { "A", 100 },
                 { "Exit1", 300 },
                 { "Exit2", 300 },
                 { "Exit3", 300 },
