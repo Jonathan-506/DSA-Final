@@ -139,7 +139,7 @@ namespace DSA_Final
                     distance = distances[exit5];
                 }
 
-            penaltySum = penalty.SumOfPenalties();
+            penaltySum = penalty.SumOfPenalties(start);
             
             return distance * (1 + penaltySum);
         }

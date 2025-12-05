@@ -8,7 +8,7 @@ namespace DSA_Final
 {
     public class Penalty
     {
-        public List<decimal> Penalties = new List<decimal>();
+        
         public int MainStairPenaltyF1 {get; set;}
         public int MainStairUsersF1 { get; set; }
 
@@ -56,24 +56,95 @@ namespace DSA_Final
 
         }
 
-        public decimal SumOfPenalties()
+        public decimal SumOfPenalties(string room)
         {
             decimal sum = 0;    
 
-            foreach (var penalty in Penalties)
-            {
-                sum += penalty;
-            }
+
+                if (room == "151")
+                {
+                    
+                }
+                else if (room == "142")
+                {
+
+                }
+                else if (room == "143")
+                {
+
+                }
+                else if (room == "124")
+                {
+
+                }
+                else if (room == "122")
+                {
+
+                }
+                else if (room == "123")
+                {
+
+                }
+                else if (room == "223")
+                {
+
+
+                }
+                else if (room == "225")
+                {
+
+                }
+                else if (room == "254")
+                {
+
+                }
+                else if (room == "243")
+                {
+
+                }
+                else if (room == "251")
+                {
+
+                    
+                }
+                else if (room == "323")
+                {
+
+                }
+                else if (room == "324")
+                {
+
+
+                }
+                else if (room == "354")
+                {
+
+                }
+                else if (room == "353")
+                {
+
+                } 
+                else if (room == "343")
+                {
+
+                }
+                else if (room == "342")
+                {
+  
+                }
+                else if (room == "351")
+                {
+
+                }
+                else if (room == "341")
+                {
+
+                }
+
+
             return sum;
         }
-        public void AddPenalty(decimal penalty)
-        {
-            if(penalty > 0)
-            {
-                Penalties.Add(penalty);
-            }
-            
-        }
+
 
         public void ComputePenalty(string room)
         {
@@ -87,11 +158,11 @@ namespace DSA_Final
 
                 if (MainStairUsersF1 <= capacity)
                 {
-                    AddPenalty(MainStairPenaltyF1 = 0);
+                    MainStairPenaltyF1 = 0;
                 }
                 else
                 {
-                    AddPenalty(MainStairPenaltyF1 = (MainStairUsersF1 - capacity) / capacity);
+                    MainStairPenaltyF1 = (MainStairUsersF1 - capacity) / capacity;
                 }
             }
             else if(room == "DD")
@@ -101,11 +172,11 @@ namespace DSA_Final
 
                 if (MainStairUsersF1 <= capacity)
                 {
-                    AddPenalty(MainStairPenaltyF1 = 0);
+                   MainStairPenaltyF1 = 0;
                 }
                 else
                 {
-                    AddPenalty(MainStairPenaltyF1 = (MainStairUsersF1 - capacity) / capacity);
+                    MainStairPenaltyF1 = (MainStairUsersF1 - capacity) / capacity;
                 }
             }
             else if(room == "CC")
@@ -115,11 +186,11 @@ namespace DSA_Final
 
                 if (MainStairUsersF3 <= capacity)
                 {
-                    AddPenalty(MainStairPenaltyF3 = 0);
+                   MainStairPenaltyF3 = 0;
                 }
                 else
                 {
-                    AddPenalty(MainStairPenaltyF3 = (MainStairUsersF3 - capacity) / capacity);
+                   MainStairPenaltyF3 = (MainStairUsersF3 - capacity) / capacity;
                 }
             }
             else if (room == "GGG")
@@ -129,11 +200,11 @@ namespace DSA_Final
 
                 if (LeftSideStairUsersF3 <= capacity)
                 {
-                    AddPenalty(LeftSideStairPenaltyF3 = 0);
+                    LeftSideStairPenaltyF3 = 0;
                 }
                 else
                 {
-                    AddPenalty(LeftSideStairPenaltyF3 = (LeftSideStairUsersF3 - capacity) / capacity);
+                    LeftSideStairPenaltyF3 = (LeftSideStairUsersF3 - capacity) / capacity;
                 }
             }
             else if (room == "AAA")
@@ -143,11 +214,11 @@ namespace DSA_Final
 
                 if (RightSideStairUsersF3 <= capacity)
                 {
-                    AddPenalty(RightSideStairPenaltyF3 = 0);
+                    RightSideStairPenaltyF3 = 0;
                 }
                 else
                 {
-                    AddPenalty(RightSideStairPenaltyF3 = (RightSideStairUsersF3 - capacity) / capacity);
+                    RightSideStairPenaltyF3 = (RightSideStairUsersF3 - capacity) / capacity;
                 }
             }
             else if (room == "GG")
@@ -157,11 +228,11 @@ namespace DSA_Final
 
                 if (LeftSideStairUsersF2 <= capacity)
                 {
-                    AddPenalty(LeftSideStairPenaltyF2 = 0);
+                    LeftSideStairPenaltyF2 = 0;
                 }
                 else
                 {
-                    AddPenalty(LeftSideStairPenaltyF2 = (LeftSideStairUsersF2 - capacity) / capacity);
+                    LeftSideStairPenaltyF2 = (LeftSideStairUsersF2 - capacity) / capacity;
                 }
             }
             else if (room == "AA")
@@ -171,11 +242,11 @@ namespace DSA_Final
 
                 if (RightSideStairUsersF2 <= capacity)
                 {
-                    AddPenalty(RightSideStairPenaltyF2 = 0);
+                    RightSideStairPenaltyF2 = 0;
                 }
                 else
                 {
-                    AddPenalty(RightSideStairPenaltyF2 = (RightSideStairUsersF2 - capacity) / capacity);
+                   RightSideStairPenaltyF2 = (RightSideStairUsersF2 - capacity) / capacity;
                 }
 
             }
@@ -186,11 +257,11 @@ namespace DSA_Final
 
                 if (LeftSideStairUsersF1 <= capacity)
                 {
-                    AddPenalty(LeftSideStairPenaltyF1 = 0);
+                    LeftSideStairPenaltyF1 = 0;
                 }
                 else
                 {
-                    AddPenalty(LeftSideStairPenaltyF1 = (LeftSideStairUsersF1 - capacity) / capacity);
+                    LeftSideStairPenaltyF1 = (LeftSideStairUsersF1 - capacity) / capacity;
                 }
             }
             else if (room == "A")
@@ -200,11 +271,11 @@ namespace DSA_Final
 
                 if (RightSideStairUsersF1 <= capacity)
                 {
-                    AddPenalty(RightSideStairPenaltyF1 = 0);
+                    RightSideStairPenaltyF1 = 0;
                 }
                 else
                 {
-                    AddPenalty(RightSideStairPenaltyF1 = (RightSideStairUsersF1 - capacity) / capacity);
+                    RightSideStairPenaltyF1 = (RightSideStairUsersF1 - capacity) / capacity;
                 }
             }
             else if (room == "Exit1")
@@ -214,11 +285,11 @@ namespace DSA_Final
 
                 if (Exit1Users <= capacity)
                 {
-                    AddPenalty(Exit1Penalty = 0);
+                    Exit1Penalty = 0;
                 }
                 else
                 {
-                    AddPenalty(Exit1Penalty = (Exit1Users - capacity) / capacity);
+                    Exit1Penalty = (Exit1Users - capacity) / capacity;
                 }
             }
             else if (room == "Exit2")
@@ -228,11 +299,11 @@ namespace DSA_Final
 
                 if (Exit2Users <= capacity)
                 {
-                    AddPenalty(Exit2Penalty = 0);
+                    Exit2Penalty = 0;
                 }
                 else
                 {
-                    AddPenalty(Exit2Penalty = (Exit2Users - capacity) / capacity);
+                    Exit2Penalty = (Exit2Users - capacity) / capacity;
                 }
             }
             else if (room == "Exit3")
@@ -242,11 +313,11 @@ namespace DSA_Final
 
                 if (Exit3Users <= capacity)
                 {
-                    AddPenalty(Exit3Penalty = 0);
+                    Exit3Penalty = 0;
                 }
                 else
                 {
-                    AddPenalty(Exit3Penalty = (Exit3Users - capacity) / capacity);
+                    Exit3Penalty = (Exit3Users - capacity) / capacity;
                 }
             }
             else if (room == "Exit4")
@@ -256,11 +327,11 @@ namespace DSA_Final
 
                 if (Exit4Users <= capacity)
                 {
-                    AddPenalty(Exit4Penalty = 0);
+                    Exit4Penalty = 0;
                 }
                 else
                 {
-                    AddPenalty(Exit4Penalty = (Exit4Users - capacity) / capacity);
+                    Exit4Penalty = (Exit4Users - capacity) / capacity;
                 }
 
             }
@@ -271,11 +342,11 @@ namespace DSA_Final
 
                 if (Exit5Users <= capacity)
                 {
-                    AddPenalty(Exit5Penalty = 0);
+                    Exit5Penalty = 0;
                 }
                 else
                 {
-                    AddPenalty(Exit5Penalty = (Exit5Users - capacity) / capacity);
+                   Exit5Penalty = (Exit5Users - capacity) / capacity;
                 }
             }
             
