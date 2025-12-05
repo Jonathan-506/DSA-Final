@@ -6,7 +6,7 @@ public class Program
 {
     public static void Main()
     {
-        Penalty penalty = new Penalty();
+
         Map building = new Map();
         //FirstFloor
         building.AddEdge("Exit5", "I", 0);
@@ -66,7 +66,41 @@ public class Program
 
         //building.PrintGraph();
 
-        Console.WriteLine(building.Dijkstra("123", penalty));
+        Dictionary<string, int> studentsPerRoom = new Dictionary<string, int>
+        { 
+            { "151", 72 },                
+            { "142", 50 },                
+            { "143", 72 },                
+            { "124", 50 },            
+            { "122", 90 },     
+            { "123", 72 },
+            { "223", 50 }, 
+            { "225", 90 },
+            { "254", 72 },
+            { "243", 50 },
+            { "251", 90 },
+            { "323", 90 },              
+            { "324", 72 },
+            { "354", 50 },
+            { "353", 90 },
+            { "343", 72 },
+            { "342", 50 },
+            { "351", 90 },
+            { "341", 18}
+        };
+
+        List<string> exits = new List<string>
+        {
+            "Exit1",
+            "Exit2",
+            "Exit3",
+            "Exit4",
+            "Exit5"
+
+        };
+
+
+        building.OptimizeEvacuation(studentsPerRoom, exits);
     }
 
 }

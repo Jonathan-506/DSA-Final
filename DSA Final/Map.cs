@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 namespace DSA_Final
 {
    //used Ai to help understand and write this code
-   //because I missed the graph section of class due to sickness
+   //This was my first time using ai to help with assignments 
+   //So this was a really good learing experience for me
     internal class Map
     {
 
@@ -52,34 +53,23 @@ namespace DSA_Final
             }
         }
 
-        public decimal Dijkstra(string start, Penalty penalty)
-        {
-            decimal penaltySum = 0;
-            string exit1 = "Exit1";
-            string exit2 = "Exit2";
-            string exit3 = "Exit3";
-            string exit4 = "Exit4";
-            string exit5 = "Exit5";
-            decimal distance = 0;
-            // Step 1: Create a dictionary to store shortest distances
-            var distances = new Dictionary<string, int>();
 
-            // Step 2: Initialize all distances to "infinity" (here, int.MaxValue)
+        public (Dictionary<string, int> distances, Dictionary<string, string> previous) Dijkstra(string start)
+        {
+            var distances = new Dictionary<string, int>();
+            var previous = new Dictionary<string, string>();
+
             foreach (var node in Graph.Keys)
             {
                 distances[node] = int.MaxValue;
+                previous[node] = null;
             }
 
-            // Distance to the start node is always 0
             distances[start] = 0;
-
-            // Step 3: Keep track of visited nodes
             var visited = new HashSet<string>();
 
-            // Step 4: Loop until all nodes are visited
             while (visited.Count < Graph.Count)
             {
-                // Find the unvisited node with the smallest distance
                 string currentNode = null;
                 int smallestDistance = int.MaxValue;
 
@@ -87,61 +77,115 @@ namespace DSA_Final
                 {
                     if (!visited.Contains(node) && distances[node] < smallestDistance)
                     {
-                        penalty.ComputePenalty(node);
                         smallestDistance = distances[node];
                         currentNode = node;
                     }
                 }
 
-                // If we can't find a reachable node, break
-                if (currentNode == null)
-                {
-                    break;
-                }
+                if (currentNode == null) break;
 
-                // Mark this node as visited
                 visited.Add(currentNode);
 
-                // Step 5: Update distances to neighbors
                 foreach (var neighbor in Graph[currentNode])
                 {
                     int newDistance = distances[currentNode] + neighbor.Value;
-
-                    // If new path is shorter, update it
                     if (newDistance < distances[neighbor.Key])
                     {
                         distances[neighbor.Key] = newDistance;
+                        previous[neighbor.Key] = currentNode;
                     }
                 }
             }
 
-            // Return the dictionary of shortest distances
-            //return distances;
-            
-                if (distances.ContainsKey(exit1))
+            return (distances, previous);
+        }
+
+        // Reconstruct path from start to target
+        public List<string> GetPath(Dictionary<string, string> previous, string target)
+        {
+            var path = new List<string>();
+            string current = target;
+
+            while (current != null)
+            {
+                path.Insert(0, current);
+                current = previous[current];
+            }
+
+            return path;
+        }
+
+        public void OptimizeEvacuation(Dictionary<string, int> roomStudents, List<string> exits)
+        {
+            // Capacities
+            var capacities = new Dictionary<string, int>
+            {
+                { "CenterStair", 200 },
+                { "SideStair", 100 },
+                { "Exit1", 300 },
+                { "Exit2", 300 }
+            };
+
+            // Usage counts
+            var usage = capacities.Keys.ToDictionary(k => k, k => 0);
+
+            Console.WriteLine("\n--- Building-Wide Optimization ---");
+
+            foreach (var room in roomStudents.Keys)
+            {
+                int totalStudents = roomStudents[room];
+
+                // Compute shortest paths to each exit
+                var (distances, previous) = Dijkstra(room);
+
+                var pathOptions = new List<(string exit, List<string> path, int baseTime)>();
+
+                foreach (var exit in exits)
                 {
-                    distance = distances[exit1];
-                }
-                if (distances.ContainsKey(exit2) && distance > distances[exit2])
-                {
-                    distance = distances[exit2];
-                }
-                if (distances.ContainsKey(exit3) && distance > distances[exit3])
-                {
-                    distance = distances[exit3];
-                }
-                if (distances.ContainsKey(exit4) && distance > distances[exit4])
-                {
-                    distance = distances[exit4];
-                }
-                if (distances.ContainsKey(exit5) && distance > distances[exit5])
-                {
-                    distance = distances[exit5];
+                    var path = GetPath(previous, exit);
+                    if (path.Count > 1 && distances[exit] < int.MaxValue)
+                    {
+                        pathOptions.Add((exit, path, distances[exit]));
+                    }
                 }
 
-            penaltySum = penalty.SumOfPenalties(start);
-            
-            return distance * (1 + penaltySum);
-        }
+                // Simple heuristic: split evenly across available exits
+                int splitCount = pathOptions.Count;
+                int studentsPerPath = totalStudents / splitCount;
+
+                Console.WriteLine($"\nRoom {room} ({totalStudents} students):");
+
+                foreach (var option in pathOptions)
+                {
+                    // Add usage to choke points
+                    foreach (var node in option.path)
+                    {
+                        if (capacities.ContainsKey(node))
+                        {
+                            usage[node] += studentsPerPath;
+                        }
+                    }
+
+                    Console.WriteLine($"  -> {studentsPerPath} students via {string.Join(" -> ", option.path)} (BaseTime={option.baseTime})");
+                }
+            }
+
+            // Compute penalties
+            var penalties = new Dictionary<string, double>();
+            foreach (var choke in usage.Keys)
+            {
+                if (usage[choke] <= capacities[choke])
+                    penalties[choke] = 0;
+                else
+                    penalties[choke] = (double)(usage[choke] - capacities[choke]) / capacities[choke];
+            }
+
+            // Report choke point usage
+            Console.WriteLine("\nChoke Point Usage:");
+            foreach (var choke in usage.Keys)
+            {
+                Console.WriteLine($"{choke}: {usage[choke]} students, Capacity={capacities[choke]}, Penalty={penalties[choke]:F2}");
+            }
+        }       
     }
 }
