@@ -114,7 +114,7 @@ namespace DSA_Final
             return path;
         }
 
-        public void OptimizeEvacuationPlan(Dictionary<string, int> roomStudents, List<string> exits)
+        public void OptimizeEvacuationPlan(Dictionary<string, int> classroom, List<string> exits)
         {
             
             var capacities = new Dictionary<string, int>
@@ -136,26 +136,26 @@ namespace DSA_Final
             };
 
 
-            var usage = new Dictionary<string, int>();
+            var studentsUsingChokePoints = new Dictionary<string, int>();
             foreach (var key in capacities.Keys)
             {
-                usage[key] = 0;
+                studentsUsingChokePoints[key] = 0;
             }
 
             Console.WriteLine("--- Evacuation Plan ---");
 
-            foreach (var room in roomStudents.Keys)
+            foreach (var room in classroom.Keys)
             {
-                int totalStudents = roomStudents[room];
+                int totalStudents = classroom[room];
 
 
-                var (distances, previous) = Dijkstra(room);
+                var (distances, previousNodes) = Dijkstra(room);
 
                 var pathOptions = new List<(string exit, List<string> path, int baseTime)>();
 
                 foreach (var exit in exits)
                 {
-                    var path = GetPath(previous, exit);
+                    var path = GetPath(previousNodes, exit);
                     if (path.Count > 1 && distances[exit] < int.MaxValue)
                     {
                         pathOptions.Add((exit, path, distances[exit]));
@@ -175,7 +175,7 @@ namespace DSA_Final
                     {
                         if (capacities.ContainsKey(node))
                         {
-                            usage[node] += studentsPerPath;
+                            studentsUsingChokePoints[node] += studentsPerPath;
                         }
                     }
 
@@ -186,9 +186,9 @@ namespace DSA_Final
             
             
             Console.WriteLine("\nChoke Point Usage:");
-            foreach (var choke in usage.Keys.OrderBy(k => k))
+            foreach (var choke in studentsUsingChokePoints.Keys.OrderBy(k => k))
             {
-                 int used = usage[choke];
+                 int used = studentsUsingChokePoints[choke];
                  int cap = capacities[choke];
                  double penalty = used > cap ? (double)(used - cap) / cap : 0.0;
                  Console.WriteLine($"{choke}: {used} students, Capacity={cap}, Penalty={penalty:F2}");
