@@ -181,20 +181,21 @@ namespace DSA_Final
                             studentsUsingChokePoints[node] += studentsPerPath;
                         }
                     }
-
+                    
                     Console.WriteLine($" -> {studentsPerPath} students via {string.Join(" -> ", option.path)} (Base Time: {option.baseTime})");
                 }
+                
             }
 
             
-            
+
             Console.WriteLine("\nChoke Point Usage:");
-            foreach (var choke in studentsUsingChokePoints.Keys.OrderBy(k => k))
+            foreach (var chokePoint in studentsUsingChokePoints.Keys.OrderBy(k => k))
             {
-                 int used = studentsUsingChokePoints[choke];
-                 int cap = capacities[choke];
+                 int used = studentsUsingChokePoints[chokePoint];
+                 int cap = capacities[chokePoint];
                  double penalty = used > cap ? (double)(used - cap) / cap : 0.0;
-                 Console.WriteLine($"{choke}: {used} students, Capacity={cap}, Penalty={penalty:F2}");
+                 Console.WriteLine($"{chokePoint}: {used} students, Capacity: {cap}, Penalty: {penalty:F2}");
             }
         }       
     }
