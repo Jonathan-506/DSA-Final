@@ -101,15 +101,18 @@ namespace DSA_Final
             return (distances, previous);
         }
 
-        public List<string> GetPath(Dictionary<string,string> previous, string target)
+        public List<string> GetPath(Dictionary<string,string> previousNodes, string target)
         {
             var path = new List<string>();
-            if (!previous.ContainsKey(target)) return path;
+            if (!previousNodes.ContainsKey(target))
+            {
+                return path;
+            }
             string current = target;
             while (current != null)
             {
                 path.Insert(0, current);
-                if (!previous.TryGetValue(current, out current)) break;
+                if (!previousNodes.TryGetValue(current, out current)) break;
             }
             return path;
         }
@@ -179,7 +182,7 @@ namespace DSA_Final
                         }
                     }
 
-                    Console.WriteLine($" -> {studentsPerPath} students via {string.Join(" -> ", option.path)} (BaseTime={option.baseTime})");
+                    Console.WriteLine($" -> {studentsPerPath} students via {string.Join(" -> ", option.path)} (Base Time: {option.baseTime})");
                 }
             }
 
